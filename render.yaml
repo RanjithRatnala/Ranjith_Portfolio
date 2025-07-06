@@ -14,7 +14,7 @@ services:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: ranjith-portfolio.onrender.com
+        value: ranjith-portfolio.onrender.com,ranjith-portfolio-db57.onrender.com
       - key: DATABASE_URL
         fromDatabase:
           name: portfolio-db
