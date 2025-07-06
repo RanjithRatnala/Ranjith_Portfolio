@@ -6,7 +6,8 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
-    startCommand: gunicorn Ranjith_Portfolio.wsgi:application
+      python manage.py migrate
+    startCommand: gunicorn Ranjith_Portfolio.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
         sync: false
