@@ -34,7 +34,7 @@ SECRET_KEY = config('SECRET_KEY', default='$@-ougf0e6cm2jl3wq%nla@6l3k*lu$2bd-zr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,ranjith-portfolio.onrender.com,dpg-d1l196ndiees73f32un0-a.oregon-postgres.render.com', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,ranjith-portfolio.onrender.com,ranjith-portfolio-db57.onrender.com,dpg-d1l196ndiees73f32un0-a.oregon-postgres.render.com', cast=lambda v: [s.strip() for s in v.split(',')])
 
 
 # Application definition

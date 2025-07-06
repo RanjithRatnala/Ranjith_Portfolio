@@ -14,7 +14,7 @@ services:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: ranjith-portfolio.onrender.com,ranjith-portfolio-db57.onrender.com
+        value: ranjith-portfolio.onrender.com,ranjith-portfolio-db57.onrender.com,dpg-d1l196ndiees73f32un0-a.oregon-postgres.render.com
       - key: DATABASE_URL
         value: postgresql://portfolio_django_render_7e2a_user:20Z8kui1VxaBjKdUpUgLMJ09G6icpcvI@dpg-d1l196ndiees73f32un0-a.oregon-postgres.render.com/portfolio_django_render_7e2a
       - key: REDIS_URL

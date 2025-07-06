@@ -374,3 +374,5 @@ django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. Y
 INFO 2025-07-06 13:56:53,464 autoreload 16360 22392 C:\Users\hp\OneDrive\Desktop\Tailwind\Ranjith_Portfolio\Ranjith_Portfolio\settings.py changed, reloading.
 INFO 2025-07-06 14:03:41,891 autoreload 9388 9048 Watching for file changes with StatReloader
 INFO 2025-07-06 15:17:33,674 autoreload 13468 23624 Watching for file changes with StatReloader
+INFO 2025-07-06 15:21:40,453 autoreload 13468 23624 C:\Users\hp\OneDrive\Desktop\Tailwind\Ranjith_Portfolio\Ranjith_Portfolio\settings.py changed, reloading.
+INFO 2025-07-06 15:21:43,077 autoreload 3632 20292 Watching for file changes with StatReloader
