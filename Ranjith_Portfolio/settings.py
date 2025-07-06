@@ -1,15 +1,25 @@
 import os
 from pathlib import Path
 import dj_database_url
-# Try to import decouple, fallback to os.environ if not available
-try:
-    from decouple import config
-except ImportError:
-    def config(key, default=None, cast=None):
+from decouple import config as decouple_config
+# Configuration helper function
+def get_config(key, default=None, cast=None):
+    """Get configuration value from environment or decouple"""
+    try:
+        from decouple import config as decouple_config
+        if cast is not None:
+            return decouple_config(key, default=default, cast=cast)
+        else:
+            return decouple_config(key, default=default)
+    except ImportError:
+        # Fallback to os.environ if python-decouple is not available
         value = os.environ.get(key, default)
         if cast and value is not None:
             return cast(value)
         return value
+
+# Use the config function
+config = get_config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure--q1cltfvwsqf=w+6s*1duuau5pxz2^o8@efioj!%965di09iac')
+SECRET_KEY = config('SECRET_KEY', default='$@-ougf0e6cm2jl3wq%nla@6l3k*lu$2bd-zr=0cj=m10!!jzv')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
@@ -77,7 +87,6 @@ WSGI_APPLICATION = 'Ranjith_Portfolio.wsgi.application'
 database_url = config('DATABASE_URL', default='', cast=str)
 if database_url and isinstance(database_url, str):
     try:
-        import dj_database_url
         DATABASES = {
             'default': dj_database_url.parse(str(database_url))
         }
@@ -89,19 +98,6 @@ if database_url and isinstance(database_url, str):
                 'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
-# Use environment variable for database URL (remove hardcoded URL)
-if database_url and isinstance(database_url, str):
-    DATABASES = {
-        'default': dj_database_url.parse(str(database_url))
-    }
 else:
     DATABASES = {
         'default': {
@@ -161,19 +157,18 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Security Settings for Production
+# Security Settings
+# HTTPS settings (only in production)
 if not DEBUG:
-    # HTTPS settings
     SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = 31536000  # 1 year
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_FRAME_DENY = True
     X_FRAME_OPTIONS = 'DENY'
     
-    # Session security
+    # Session security (only in production)
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
@@ -181,8 +176,18 @@ if not DEBUG:
     
     # Additional security headers
     SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+else:
+    # Development security settings
+    SECURE_HSTS_SECONDS = 0  # Disable HSTS in development
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
     
     # Logging configuration
+    import os
+    log_dir = BASE_DIR / 'logs'
+    log_dir.mkdir(exist_ok=True)
+    
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -200,7 +205,7 @@ if not DEBUG:
             'file': {
                 'level': 'INFO',
                 'class': 'logging.FileHandler',
-                'filename': BASE_DIR / 'logs' / 'django.log',
+                'filename': log_dir / 'django.log',
                 'formatter': 'verbose',
             },
             'console': {
@@ -236,6 +241,7 @@ CACHES = {
 } if not DEBUG else {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
 }
 

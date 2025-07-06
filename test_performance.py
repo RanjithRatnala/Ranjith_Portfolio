@@ -9,7 +9,6 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.cache import cache
 from django.db import connection
-from portfolio.models import PersonalInfo, Experience, SkillCategory, Project
 
 def test_page_load_time():
     """Test main portfolio page load time"""
@@ -19,12 +18,15 @@ def test_page_load_time():
     start_time = time.time()
     
     # Test main portfolio page
-    response = client.get(reverse('portfolio_home'))
-    load_time = time.time() - start_time
-    
-    print(f"📊 Page load time: {load_time:.3f} seconds")
-    print(f"📄 Response status: {response.status_code}")
-    print(f"📦 Response size: {len(response.content)} bytes")
+    try:
+        response = client.get(reverse('portfolio:home'))
+        load_time = time.time() - start_time
+        print(f"📊 Page load time: {load_time:.3f} seconds")
+        print(f"📄 Response status: {response.status_code}")
+        print(f"📦 Response size: {len(getattr(response, 'content', b''))} bytes")
+    except Exception as e:
+        print(f"❌ Page load test failed: {e}")
+        load_time = 0.0
     
     if load_time < 2.0:
         print("✅ Excellent performance!")
@@ -37,6 +39,8 @@ def test_page_load_time():
 
 def test_database_queries():
     """Test database query performance"""
+    from portfolio.models import PersonalInfo, Experience, SkillCategory, Project
+    
     print("\n🗄️ Testing database performance...")
     
     # Test query count
@@ -61,8 +65,12 @@ def test_database_queries():
     
     # Test query performance
     start_time = time.time()
-    personal_info = PersonalInfo.objects.select_related().first()
-    query_time = time.time() - start_time
+    try:
+        personal_info = PersonalInfo.objects.select_related().first()  # type: ignore
+        query_time = time.time() - start_time
+    except Exception as e:
+        print(f"❌ Database query failed: {e}")
+        query_time = 0.0
     
     print(f"⏱️  Personal info query time: {query_time:.4f} seconds")
     
@@ -105,19 +113,27 @@ def test_static_files():
     
     # Test CSS file
     start_time = time.time()
-    response = client.get('/static/portfolio/css/style.css')
-    css_time = time.time() - start_time
-    
-    print(f"⏱️  CSS load time: {css_time:.4f} seconds")
-    print(f"📦 CSS file size: {len(response.content)} bytes")
+    try:
+        response = client.get('/static/portfolio/css/style.css')
+        css_time = time.time() - start_time
+        response_content = getattr(response, 'content', b'')
+        print(f"⏱️  CSS load time: {css_time:.4f} seconds")
+        print(f"📦 CSS file size: {len(response_content)} bytes")
+    except Exception as e:
+        print(f"❌ CSS file test failed: {e}")
+        css_time = 0.0
     
     # Test JS file
     start_time = time.time()
-    response = client.get('/static/portfolio/js/main.js')
-    js_time = time.time() - start_time
-    
-    print(f"⏱️  JS load time: {js_time:.4f} seconds")
-    print(f"📦 JS file size: {len(response.content)} bytes")
+    try:
+        response = client.get('/static/portfolio/js/main.js')
+        js_time = time.time() - start_time
+        response_content = getattr(response, 'content', b'')
+        print(f"⏱️  JS load time: {js_time:.4f} seconds")
+        print(f"📦 JS file size: {len(response_content)} bytes")
+    except Exception as e:
+        print(f"❌ JS file test failed: {e}")
+        js_time = 0.0
     
     return css_time + js_time
 
@@ -185,7 +201,7 @@ if __name__ == "__main__":
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     
     # Setup Django
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ranjith_portfolio.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Ranjith_Portfolio.settings')
     django.setup()
     
     # Run performance tests
