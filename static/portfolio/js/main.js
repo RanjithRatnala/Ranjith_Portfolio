@@ -196,31 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
         bar.style.width = '0%';
     });
     animateSkillBars(); // Check if visible on load
-    
-    // GSAP Animations
-    if (typeof gsap !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero Animation
-        gsap.from('.hero .subtitle', { opacity: 0, y: -20, duration: 0.8, delay: 0.2 });
-        gsap.from('.hero h1', { opacity: 0, y: -20, duration: 1, delay: 0.4 });
-        gsap.from('.hero .description', { opacity: 0, y: -20, duration: 1, delay: 0.6 });
-        gsap.from('.hero .cta-buttons .btn', { opacity: 0, y: 20, stagger: 0.2, duration: 0.8, delay: 0.8 });
-
-        // General Section Animation
-        gsap.utils.toArray('.section-title, .about-text p, .about-image, .experience-item, .skill-category, .project-card, .resume-content').forEach(elem => {
-            gsap.from(elem, {
-                scrollTrigger: {
-                    trigger: elem,
-                    start: 'top 85%',
-                    toggleActions: 'play none none none'
-                },
-                opacity: 0,
-                y: 50,
-                duration: 1,
-            });
-        });
-    }
 });
 
 // Add mouse movement parallax effect

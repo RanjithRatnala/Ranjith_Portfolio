@@ -1,0 +1,1 @@
+web: gunicorn Ranjith_Portfolio.wsgi:application --log-file - 

@@ -10,4 +10,4 @@ urlpatterns = [
     path('api/experiences/', views.api_experiences, name='api_experiences'),
     path('api/skills/', views.api_skills, name='api_skills'),
     path('api/projects/', views.api_projects, name='api_projects'),
-] 
+]
