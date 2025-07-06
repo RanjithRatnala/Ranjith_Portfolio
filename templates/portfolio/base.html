@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% if personal_info %}{{ personal_info.name }} - Portfolio{% else %}Portfolio{% endif %}{% endblock %}</title>
+    {% if personal_info and personal_info.email %}
+    <meta name="contact-email" content="{{ personal_info.email }}">
+    {% endif %}
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="{% static 'portfolio/css/style.css' %}" as="style">
+    <link rel="preload" href="{% static 'portfolio/js/main.js' %}" as="script">
+    
+    <!-- Critical CSS -->
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Performance Meta Tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="{% static 'portfolio/images/favicon.ico' %}" type="image/x-icon">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "{% if personal_info %}{{ personal_info.name }}{% else %}Portfolio Owner{% endif %}",
+        "jobTitle": "{% if personal_info %}{{ personal_info.title }}{% else %}Developer{% endif %}",
+        "url": "{{ request.build_absolute_uri }}",
+        "sameAs": [
+            "{% if personal_info.github_url %}{{ personal_info.github_url }}{% endif %}",
+            "{% if personal_info.linkedin_url %}{{ personal_info.linkedin_url }}{% endif %}"
+        ]
+    }
+    </script>
+</head>
+<body data-theme="dark">
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    {% include 'portfolio/includes/navbar.html' %}
+
+    <div class="floating-elements" id="floatingElements"></div>
+
+    {% block content %}{% endblock %}
+    
+    <!-- Defer non-critical JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
+    <script src="{% static 'portfolio/js/main.js' %}" defer></script>
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Performance monitoring -->
+    <script>
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            if ('performance' in window) {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+            }
+        });
+    </script>
+</body>
+</html> 

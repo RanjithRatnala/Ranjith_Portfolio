@@ -1,0 +1,75 @@
+<section class="section" id="skills">
+    <div class="container">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+            {% for category in skill_categories %}
+            <div class="skill-category">
+                <h3>{{ category.name }}</h3>
+                {% for skill in category.skills.all %}
+                <div class="skill-item">
+                    <span>{{ skill.name }}</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="{{ skill.proficiency }}"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% empty %}
+            <div class="skill-category">
+                <h3>Frontend</h3>
+                <div class="skill-item">
+                    <span>React</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="90"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span>Vue.js</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="85"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span>TypeScript</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span>CSS/Sass</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="95"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Backend</h3>
+                <div class="skill-item">
+                    <span>Node.js</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="85"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span>Python</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span>Django</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="90"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span>MongoDB</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="70"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section> 

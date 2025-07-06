@@ -1,0 +1,13 @@
+<section class="section" id="hero">
+    <div class="container">
+        <div class="hero">
+            <p class="subtitle">Hello, I'm</p>
+            <h1>{% if personal_info %}{{ personal_info.name }}{% else %}Your Name{% endif %}</h1>
+            <p class="description">{% if personal_info %}{{ personal_info.description }}{% else %}A passionate developer creating innovative digital experiences.{% endif %}</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#resume" class="btn btn-secondary">Download Resume</a>
+            </div>
+        </div>
+    </div>
+</section> 

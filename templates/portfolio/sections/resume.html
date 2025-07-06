@@ -1,0 +1,16 @@
+<section class="section resume-section" id="resume">
+    <div class="container">
+        <h2 class="section-title">Resume</h2>
+        <div class="resume-content">
+            <p>Download my complete resume to learn more about my experience, education, and achievements in detail.</p>
+            <div class="cta-buttons">
+                {% if personal_info and personal_info.resume_file %}
+                <a href="{% url 'portfolio:download_resume' %}" class="btn btn-primary">📄 Download PDF</a>
+                {% else %}
+                <div class="btn btn-primary" id="downloadPdfBtn">📄 Download PDF</div>
+                {% endif %}
+                <div class="btn btn-secondary" id="emailResumeBtn">📧 Email Resume</div>
+            </div>
+        </div>
+    </div>
+</section> 

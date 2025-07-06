@@ -1,0 +1,27 @@
+<section class="section" id="projects">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            {% for project in projects %}
+                {% include 'portfolio/components/project_card.html' with project=project %}
+            {% empty %}
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1614850523011-8f495a764ac3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sample Project" onerror="this.onerror=null;this.src='https://placehold.co/500x200/7e57c2/ffffff?text=Sample+Project';">
+                </div>
+                <h3>Sample Project</h3>
+                <p>This is a sample project to demonstrate the portfolio functionality.</p>
+                <div class="project-tags">
+                    <span class="tag">Django</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">HTML/CSS</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link">🔗 Live Demo</a>
+                    <a href="#" class="project-link">📱 GitHub</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section> 
