@@ -34,7 +34,7 @@ SECRET_KEY = config('SECRET_KEY', default='$@-ougf0e6cm2jl3wq%nla@6l3k*lu$2bd-zr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,ranjith-portfolio.onrender.com,ranjith-portfolio-db57.onrender.com', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,ranjith-portfolio.onrender.com,dpg-d1l196ndiees73f32un0-a.oregon-postgres.render.com', cast=lambda v: [s.strip() for s in v.split(',')])
 
 
 # Application definition
@@ -83,13 +83,16 @@ WSGI_APPLICATION = 'Ranjith_Portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use PostgreSQL in production, SQLite in development
+# Database Configuration
+# Use PostgreSQL in production (via DATABASE_URL), SQLite in development
 database_url = config('DATABASE_URL', default='', cast=str)
 if database_url and isinstance(database_url, str):
     try:
+        # Parse PostgreSQL URL for production
         DATABASES = {
             'default': dj_database_url.parse(str(database_url))
         }
+        print(f"Using PostgreSQL database: {database_url.split('@')[1].split('/')[0]}")
     except ImportError:
         # Fallback to SQLite if dj-database-url is not available
         DATABASES = {
@@ -98,13 +101,16 @@ if database_url and isinstance(database_url, str):
                 'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
+        print("Using SQLite database (fallback)")
 else:
+    # Use SQLite for development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    print("Using SQLite database (development)")
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
